@@ -51,7 +51,7 @@ public class TaskController {
     }
 
     @PutMapping("/taskDone/{id}")
-    public void setTaskDone(@PathVariable Long id) {
+    public void setTaskDone(@PathVariable Long id) throws BadRequestException{
          taskService.taskDone(id);
     }
 

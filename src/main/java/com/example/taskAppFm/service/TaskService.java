@@ -54,7 +54,7 @@ public class TaskService {
                 return taskRepository.save(taskSearch.get());
             }
             else {
-                throw new BadRequestException("USER NOT FOUND");
+                throw new BadRequestException("USER NOT FOUND ");
             }
         }
         else {
@@ -95,13 +95,25 @@ public class TaskService {
         }
 
 
-    public void taskDone(Long id){
+    public void taskDone(Long id) throws BadRequestException{
         Optional<Task> taskSearch = taskRepository.findById(id);
         if (taskSearch.isPresent()){
-            Integer valor = taskSearch.get().getPoints();
+            if (taskSearch.get().getTaskState().equals(TaskState.DONE)) {
+                throw new BadRequestException("TASK HAS ALREADY BEEN DONE");
+            }
+            Integer points = taskSearch.get().getPoints();
+            taskSearch.get().setPoints(0);
             taskSearch.get().setTaskState(TaskState.DONE);
-            User user = taskSearch.get().getUser();
-            user.setScore(user.getScore()+valor);
+            taskRepository.save(taskSearch.get());
+            Optional<User> userSearch = userRepository.findById(taskSearch.get().getUser().getId());
+            if (userSearch.isPresent()){
+                Integer prevScore = userSearch.get().getScore();
+                userSearch.get().setScore(prevScore + points);
+                userRepository.save(userSearch.get());
+            }
+            else {
+                throw new BadRequestException("CAN'T SET A TASK AS DONE IF IT DOESN'T HAVE AN USER");
+            }
         }
     }
 

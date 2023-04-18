@@ -1,6 +1,8 @@
 package com.example.taskAppFm.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 import java.util.HashSet;
@@ -18,6 +20,7 @@ public class User {
     private Integer score;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties({"user"})
     private Set<Task> tasks = new HashSet<>();
 
 

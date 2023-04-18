@@ -1,5 +1,7 @@
 package com.example.taskAppFm.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
@@ -18,7 +20,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskState taskState;
     @ManyToOne
-    @JsonIgnore
+    @JsonIgnoreProperties({"tasks"})
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
