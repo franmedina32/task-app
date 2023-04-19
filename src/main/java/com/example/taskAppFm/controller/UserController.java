@@ -35,9 +35,14 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    @GetMapping("listTasks/{id}")
+    /*@GetMapping("listTasks/{id}")
     public Set<Task> listTasks(@PathVariable Long id) throws ResourceNotFoundException{
         return userService.listUserTasks(id);
+    } */
+
+    @GetMapping("/list")
+    public List<User> listUsers(){
+        return userService.listUsers();
     }
 
 }

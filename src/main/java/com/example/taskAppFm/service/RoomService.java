@@ -3,7 +3,10 @@ package com.example.taskAppFm.service;
 import com.example.taskAppFm.Exceptions.BadRequestException;
 import com.example.taskAppFm.Exceptions.ResourceNotFoundException;
 import com.example.taskAppFm.domain.Room;
+import com.example.taskAppFm.domain.User;
+import com.example.taskAppFm.dto.RoomDTO;
 import com.example.taskAppFm.repository.RoomRepository;
+import com.example.taskAppFm.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +15,11 @@ import java.util.Optional;
 @Service
 public class RoomService {
     private RoomRepository roomRepository;
+    private UserRepository userRepository;
 
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(RoomRepository roomRepository, UserRepository userRepository) {
         this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
     }
 
     public Room newRoom(Room room){
@@ -64,4 +69,17 @@ public class RoomService {
             throw new BadRequestException("ROOM DOESN'T EXIST");
         }
     }
+
+    public Room addUserToRoom(RoomDTO roomDTO) throws ResourceNotFoundException{
+        Optional<Room> roomSearch = roomRepository.findByName(roomDTO.getName());
+        Optional<User> userSearch = userRepository.findById(roomDTO.getUser_id());
+        if (roomSearch.isPresent() && userSearch.isPresent()){
+            roomSearch.get().addUser(userSearch.get());
+            return roomRepository.save(roomSearch.get());
+        }
+        else {
+            throw new ResourceNotFoundException("ROOM OR USER NOT FOUND");
+        }
+    }
+
 }

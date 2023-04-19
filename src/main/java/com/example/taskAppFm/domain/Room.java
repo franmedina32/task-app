@@ -26,6 +26,10 @@ public class Room {
     public Room() {
     }
 
+    public void addUser(User user){
+        users.add(user);
+    }
+
     public String getName() {
         return name;
     }

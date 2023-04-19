@@ -68,7 +68,7 @@ public class UserService {
         }
     }
 
-    public Set<Task> listUserTasks(Long id) throws ResourceNotFoundException{
+    /*public Set<Task> listUserTasks(Long id) throws ResourceNotFoundException{
         Optional<User> userSearch = userRepository.findById(id);
         if (userSearch.isPresent()){
             return userSearch.get().getTasks();
@@ -76,6 +76,10 @@ public class UserService {
         else {
             throw new ResourceNotFoundException("USER NOT FOUND");
         }
+    } */
+
+    public List<User> listUsers() {
+        return userRepository.findAll();
     }
 
 
