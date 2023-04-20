@@ -5,12 +5,14 @@ import com.example.taskAppFm.domain.Task;
 import com.example.taskAppFm.domain.User;
 import com.example.taskAppFm.dto.UserDTO;
 import com.example.taskAppFm.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/user")
 public class UserController {
 
@@ -21,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public User createUser(@RequestBody UserDTO userDTO){
-       return userService.createUser(userDTO);
+    public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO){
+       return ResponseEntity.ok(userService.createUser(userDTO));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -43,6 +45,11 @@ public class UserController {
     @GetMapping("/list")
     public List<User> listUsers(){
         return userService.listUsers();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO) throws Exception {
+        return ResponseEntity.ok(userService.findAndCheckUser(userDTO));
     }
 
 }

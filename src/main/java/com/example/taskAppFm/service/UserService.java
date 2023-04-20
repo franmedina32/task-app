@@ -8,6 +8,8 @@ import com.example.taskAppFm.domain.UserRole;
 import com.example.taskAppFm.dto.UserDTO;
 import com.example.taskAppFm.repository.TaskRepository;
 import com.example.taskAppFm.repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,6 +83,24 @@ public class UserService {
     public List<User> listUsers() {
         return userRepository.findAll();
     }
+
+    public UserDTO findAndCheckUser(UserDTO userDTO) throws ResourceNotFoundException,BadRequestException {
+        Optional<User> userSearch = userRepository.findByName(userDTO.getName());
+        if (userSearch.isPresent()){
+            String passwordDB = userSearch.get().getPassword();
+            String passwordProvided = userDTO.getPassword();
+            if (passwordDB.equals(passwordProvided)){
+                return usertoDTO(userSearch.get());
+            }
+            else {
+                throw new BadRequestException("INCORRECT PASSWORD");
+            }
+        }
+        else {
+            throw new ResourceNotFoundException("USER NOT FOUND IN DATABASE");
+        }
+    }
+
 
 
 }
