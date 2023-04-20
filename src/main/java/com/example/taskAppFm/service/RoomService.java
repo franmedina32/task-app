@@ -9,6 +9,7 @@ import com.example.taskAppFm.repository.RoomRepository;
 import com.example.taskAppFm.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +81,19 @@ public class RoomService {
         else {
             throw new ResourceNotFoundException("ROOM OR USER NOT FOUND");
         }
+    }
+
+    public List<Room> listRoomByUser(String name){
+        List<Room> allRooms = roomRepository.findAll();
+        List<Room> userRooms = new ArrayList<>();
+        for (Room roomIter: allRooms) {
+            if (roomIter.isUserPresent(name)){
+                userRooms.add(roomIter);
+            }
+        }
+        System.out.println(allRooms);
+        System.out.println(userRooms);
+        return userRooms;
     }
 
 }

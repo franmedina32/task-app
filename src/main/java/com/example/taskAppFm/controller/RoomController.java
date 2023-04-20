@@ -4,6 +4,7 @@ import com.example.taskAppFm.Exceptions.BadRequestException;
 import com.example.taskAppFm.Exceptions.ResourceNotFoundException;
 import com.example.taskAppFm.domain.Room;
 import com.example.taskAppFm.dto.RoomDTO;
+import com.example.taskAppFm.dto.UserDTO;
 import com.example.taskAppFm.service.RoomService;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,5 +55,9 @@ public class RoomController {
         return roomService.addUserToRoom(roomDTO);
     }
 
+    @GetMapping("/userRooms")
+    public List<Room> userRooms(@RequestBody UserDTO userDTO){
+        return roomService.listRoomByUser(userDTO.getName());
+    }
 
 }

@@ -9,8 +9,12 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @ManyToMany
+    @JoinTable(
+            name = "room_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_id")
+    )
     private Set<User> users;
 
     public Room(Long id, String name, Set<User> users) {
@@ -52,5 +56,15 @@ public class Room {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Boolean isUserPresent(String userName) {
+        Boolean answer = false;
+        for (User user: users) {
+            if (user.getName().equals(userName)){
+                answer = true;
+            }
+        }
+        return answer;
     }
 }
