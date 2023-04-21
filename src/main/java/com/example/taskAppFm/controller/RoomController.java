@@ -55,7 +55,7 @@ public class RoomController {
         return roomService.addUserToRoom(roomDTO);
     }
 
-    @GetMapping("/userRooms")
+    @PostMapping("/userRooms")
     public List<Room> userRooms(@RequestBody UserDTO userDTO){
         return roomService.listRoomByUser(userDTO.getName());
     }
