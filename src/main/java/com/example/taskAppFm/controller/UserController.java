@@ -52,4 +52,8 @@ public class UserController {
         return ResponseEntity.ok(userService.findAndCheckUser(userDTO));
     }
 
+    @PostMapping("/name")
+    public ResponseEntity<User> getUserByName(@RequestBody UserDTO userDTO) throws Exception{
+        return ResponseEntity.ok(userService.findUserByName(userDTO));
+    }
 }

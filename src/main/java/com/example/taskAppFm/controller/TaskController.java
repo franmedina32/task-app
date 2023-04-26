@@ -6,6 +6,7 @@ import com.example.taskAppFm.domain.Task;
 import com.example.taskAppFm.domain.TaskState;
 import com.example.taskAppFm.dto.TaskDTO;
 import com.example.taskAppFm.service.TaskService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +33,8 @@ public class TaskController {
     }
 
     @PostMapping("/new")
-    public Task newTask(@RequestBody TaskDTO taskDTO) throws ResourceNotFoundException{
-        return taskService.createTask(taskDTO);
+    public ResponseEntity<Task> newTask(@RequestBody TaskDTO taskDTO) throws ResourceNotFoundException{
+        return ResponseEntity.ok(taskService.createTask(taskDTO));
     }
 
     @DeleteMapping("/delete/{id}")

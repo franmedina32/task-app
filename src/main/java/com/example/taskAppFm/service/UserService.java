@@ -101,6 +101,16 @@ public class UserService {
         }
     }
 
+    public User findUserByName(UserDTO userDTO) throws Exception {
+        Optional<User> userSearch = userRepository.findByName(userDTO.getName());
+        if (userSearch.isPresent()){
+            return userSearch.get();
+        }
+        else {
+            throw new ResourceNotFoundException(("USER NOT FOUND IN DATABASE"));
+        }
+    }
+
 
 
 }
