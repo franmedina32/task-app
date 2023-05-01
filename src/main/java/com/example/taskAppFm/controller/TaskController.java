@@ -57,5 +57,10 @@ public class TaskController {
          taskService.taskDone(id);
     }
 
+    @PostMapping("/name")
+    public ResponseEntity<Task> getTaskByName(@RequestBody TaskDTO taskDTO) throws ResourceNotFoundException {
+        return ResponseEntity.ok(taskService.findTaskByName(taskDTO));
+    }
+
 
 }

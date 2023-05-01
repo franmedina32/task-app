@@ -131,5 +131,14 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public Task findTaskByName(TaskDTO taskDTO) throws ResourceNotFoundException {
+        Optional<Task> taskSearch = taskRepository.findByName(taskDTO.getName());
+        if (taskSearch.isPresent()){
+            return taskSearch.get();
+        }
+        else {
+            throw new ResourceNotFoundException("TASK NOT FOUND");
+        }
+    }
 
 }
